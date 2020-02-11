@@ -6,6 +6,8 @@ import 'package:qr_flutter/qr_flutter.dart';
 import 'package:qr_mobile_vision/qr_camera.dart';
 import 'package:camera/camera.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:share/share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -152,7 +154,7 @@ class _MyHomePageState extends State<MyHomePage> {
         return Scaffold(
           body: [
             // Detail view
-            
+
             // List view
             ListView(
               children: 
@@ -175,8 +177,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         child: new QrCamera(
                           onError: (context, error) {
                             var strErr = error.toString();
-                            stdout.writeln('QR Callback called');
-                            stdout.writeln(strErr);
+                            print(strErr);
                           },
                           qrCodeCallback: (code) {
                             _setCodeScanned(code);
@@ -223,7 +224,8 @@ class _MyHomePageState extends State<MyHomePage> {
               foregroundColor: Colors.white,
             ),
             title: Text(item),
-            subtitle: Text('Slide for more options')
+            subtitle: Text('Slide for more options'),
+            onTap: () => launch(item)
           )
         ),
         actions: <Widget>[
@@ -236,6 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
         caption: 'Share',
         color: Colors.indigo,
         icon: Icons.share,
+        onTap: () => Share.share(item),
       ),
     ],
     secondaryActions: <Widget>[
